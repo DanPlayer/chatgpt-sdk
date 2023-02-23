@@ -72,7 +72,7 @@ func (chat *ChatGpt) CreateImageEdit(req CreateImageEditRequest) (response Creat
 	writer := multipart.NewWriter(&requestBody)
 
 	// 设置image参数
-	imagePart, err := writer.CreateFormFile("image", "otter.png")
+	imagePart, err := writer.CreateFormFile("image", req.Image.Name())
 	if err != nil {
 		fmt.Println(err)
 		return
@@ -80,7 +80,7 @@ func (chat *ChatGpt) CreateImageEdit(req CreateImageEditRequest) (response Creat
 	_, err = io.Copy(imagePart, req.Image)
 
 	// 设置mask参数
-	maskPart, err := writer.CreateFormFile("mask", "mask.png")
+	maskPart, err := writer.CreateFormFile("mask", req.Mask.Name())
 	if err != nil {
 		fmt.Println(err)
 		return
@@ -165,7 +165,7 @@ func (chat *ChatGpt) CreateImageVariations(req CreateImageVariationsRequest) (re
 	writer := multipart.NewWriter(&requestBody)
 
 	// 设置image参数
-	imagePart, err := writer.CreateFormFile("image", "otter.png")
+	imagePart, err := writer.CreateFormFile("image", req.Image.Name())
 	if err != nil {
 		fmt.Println(err)
 		return
