@@ -57,3 +57,24 @@ func (chat *ChatGpt) Model(model string) (response ModelResponse, err error) {
 	}
 	return
 }
+
+type DeleteModelResponse struct {
+	Id      string `json:"id"`
+	Object  string `json:"object"`
+	Deleted bool   `json:"deleted"`
+}
+
+// DeleteModel Delete a fine-tuned model. You must have the Owner role in your organization.
+func (chat *ChatGpt) DeleteModel(model string) (response DeleteModelResponse, err error) {
+	resp, err := chat.Delete(fmt.Sprintf(Model, model), nil)
+	if err != nil {
+		fmt.Println(err)
+		return
+	}
+	err = json.Unmarshal(resp, &response)
+	if err != nil {
+		fmt.Println(err)
+		return
+	}
+	return
+}
