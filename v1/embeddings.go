@@ -16,17 +16,16 @@ type EmbeddingsRequest struct {
 }
 
 type EmbeddingsResponse struct {
-	Object string `json:"object"`
-	Data   []struct {
-		Object    string    `json:"object"`
-		Embedding []float64 `json:"embedding"`
-		Index     int       `json:"index"`
-	} `json:"data"`
-	Model string `json:"model"`
-	Usage struct {
-		PromptTokens int `json:"prompt_tokens"`
-		TotalTokens  int `json:"total_tokens"`
-	} `json:"usage"`
+	Object string           `json:"object"`
+	Data   []EmbeddingsData `json:"data"`
+	Model  string           `json:"model"`
+	Usage  Usage            `json:"usage"`
+}
+
+type EmbeddingsData struct {
+	Object    string    `json:"object"`
+	Embedding []float64 `json:"embedding"`
+	Index     int       `json:"index"`
 }
 
 // Embeddings Creates an embedding vector representing the input text.

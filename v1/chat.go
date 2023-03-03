@@ -10,11 +10,8 @@ const (
 )
 
 type CreateChatCompletionRequest struct {
-	Model    string `json:"model"` // ID of the model to use. Currently, only gpt-3.5-turbo and gpt-3.5-turbo-0301 are supported.
-	Messages []struct {
-		Role    string `json:"role"`
-		Content string `json:"content"`
-	} `json:"messages"` // The messages to generate chat completions for, in the chat format(https://platform.openai.com/docs/guides/chat/introduction).
+	Model            string                 `json:"model"`                       // ID of the model to use. Currently, only gpt-3.5-turbo and gpt-3.5-turbo-0301 are supported.
+	Messages         []ChatMessage          `json:"messages"`                    // The messages to generate chat completions for, in the chat format(https://platform.openai.com/docs/guides/chat/introduction).
 	MaxTokens        int                    `json:"max_tokens"`                  // The maximum number of tokens to generate in the completion. The token count of your prompt plus max_tokens cannot exceed the model's context length. Most models have a context length of 2048 tokens (except for the newest models, which support 4096).
 	Temperature      float32                `json:"temperature"`                 // What sampling temperature to use, between 0 and 2. Higher values like 0.8 will make the output more random, while lower values like 0.2 will make it more focused and deterministic. We generally recommend altering this or top_p but not both.
 	TopP             int                    `json:"top_p,omitempty"`             // An alternative to sampling with temperature, called nucleus sampling, where the model considers the results of the tokens with top_p probability mass. So 0.1 means only the tokens comprising the top 10% probability mass are considered. We generally recommend altering this or temperature but not both.
@@ -27,23 +24,29 @@ type CreateChatCompletionRequest struct {
 	User             string                 `json:"user,omitempty"`              // A unique identifier representing your end-user, which can help OpenAI to monitor and detect abuse
 }
 
+type ChatMessage struct {
+	Role    string `json:"role"`
+	Content string `json:"content"`
+}
+
 type CreateChatCompletionResponse struct {
-	Id      string `json:"id"`
-	Object  string `json:"object"`
-	Created int    `json:"created"`
-	Choices []struct {
-		Index   int `json:"index"`
-		Message struct {
-			Role    string `json:"role"`
-			Content string `json:"content"`
-		} `json:"message"`
-		FinishReason string `json:"finish_reason"`
-	} `json:"choices"`
-	Usage struct {
-		PromptTokens     int `json:"prompt_tokens"`
-		CompletionTokens int `json:"completion_tokens"`
-		TotalTokens      int `json:"total_tokens"`
-	} `json:"usage"`
+	Id      string   `json:"id"`
+	Object  string   `json:"object"`
+	Created int      `json:"created"`
+	Choices []Choice `json:"choices"`
+	Usage   Usage    `json:"usage"`
+}
+
+type Choice struct {
+	Index        int         `json:"index"`
+	Message      ChatMessage `json:"message"`
+	FinishReason string      `json:"finish_reason"`
+}
+
+type Usage struct {
+	PromptTokens     int `json:"prompt_tokens"`
+	CompletionTokens int `json:"completion_tokens"`
+	TotalTokens      int `json:"total_tokens"`
 }
 
 func (chat *ChatGpt) CreateChatCompletion(req CreateChatCompletionRequest) (response CreateChatCompletionResponse, err error) {
