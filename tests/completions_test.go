@@ -8,8 +8,8 @@ import (
 
 func TestCompletions(t *testing.T) {
 	completions, err := ChatGpt.Completions(v1.CompletionsRequest{
-		Model:       "text-davinci-003",
-		Prompt:      "Say this is a test",
+		Model:       v1.GPT3TextDavinci003,
+		Prompt:      "你好",
 		Suffix:      "",
 		MaxTokens:   7,
 		Temperature: 0,

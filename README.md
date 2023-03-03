@@ -63,7 +63,7 @@ func Models() {
 
 func TestCompletions() {
 	completions, err := ChatGpt.Completions(v1.CompletionsRequest{
-		Model:       "text-davinci-003",
+		Model:       v1.GPT3TextDavinci003,
 		Prompt:      "Say this is a test",
 		Suffix:      "",
 		MaxTokens:   7,
