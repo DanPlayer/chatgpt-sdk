@@ -1,5 +1,5 @@
 # chatgpt-sdk
-simple chatgpt sdk
+simple chatgpt sdk，已经支持国内使用代理模式，调用接口
 
 ### 使用
 ```
@@ -48,9 +48,9 @@ const (
 
 ### 示例
 ```
-const SecretKey = "XXXXXXXXXXXXXXXXXXXXX"
+const SecretKey = "XXXXXXXXXXXXXXXXXXXXXXXXXXXX"
 
-var ChatGpt = v1.Client(v1.ChatGptOption{SecretKey: SecretKey})
+var ChatGpt = v1.Client(v1.ChatGptOption{SecretKey: SecretKey, HasProxy: true, ProxyUrl: "http://localhost:7890"})
 
 func Models() {
 	models, err := ChatGpt.Models()
