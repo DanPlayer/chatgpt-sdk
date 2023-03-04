@@ -6,7 +6,21 @@ import (
 	"fmt"
 	"io/ioutil"
 	"net/http"
+	neturl "net/url"
 )
+
+func (chat *ChatGpt) Proxy() *http.Transport {
+	// 设置代理地址
+	proxyURL, err := neturl.Parse(chat.ProxyUrl)
+	if err != nil {
+		panic(err)
+	}
+
+	// 创建一个Transport
+	return &http.Transport{
+		Proxy: http.ProxyURL(proxyURL),
+	}
+}
 
 func (chat *ChatGpt) Post(url string, data interface{}) ([]byte, error) {
 	requestBody, err := json.Marshal(data)
@@ -23,7 +37,14 @@ func (chat *ChatGpt) Post(url string, data interface{}) ([]byte, error) {
 	req.Header.Set("Content-Type", "application/json")
 	req.Header.Set("Authorization", fmt.Sprintf("Bearer %s", chat.Authorization))
 
-	client := &http.Client{}
+	var client *http.Client
+	if chat.HasProxy {
+		client = &http.Client{
+			Transport: chat.Proxy(),
+		}
+	} else {
+		client = &http.Client{}
+	}
 	resp, err := client.Do(req)
 	if err != nil {
 		fmt.Println(err)
@@ -57,7 +78,14 @@ func (chat *ChatGpt) Get(url string, data interface{}) ([]byte, error) {
 	req.Header.Set("Content-Type", "application/json")
 	req.Header.Set("Authorization", fmt.Sprintf("Bearer %s", chat.Authorization))
 
-	client := &http.Client{}
+	var client *http.Client
+	if chat.HasProxy {
+		client = &http.Client{
+			Transport: chat.Proxy(),
+		}
+	} else {
+		client = &http.Client{}
+	}
 	resp, err := client.Do(req)
 	if err != nil {
 		fmt.Println(err)
@@ -91,7 +119,14 @@ func (chat *ChatGpt) Delete(url string, data interface{}) ([]byte, error) {
 	req.Header.Set("Content-Type", "application/json")
 	req.Header.Set("Authorization", fmt.Sprintf("Bearer %s", chat.Authorization))
 
-	client := &http.Client{}
+	var client *http.Client
+	if chat.HasProxy {
+		client = &http.Client{
+			Transport: chat.Proxy(),
+		}
+	} else {
+		client = &http.Client{}
+	}
 	resp, err := client.Do(req)
 	if err != nil {
 		fmt.Println(err)
