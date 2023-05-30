@@ -1,6 +1,8 @@
 # chatgpt-sdk
 simple chatgpt sdk，已经支持国内使用代理模式，调用接口
 
+[![Go Report Card](https://goreportcard.com/badge/github.com/DanPlayer/chatgpt-sdk)](https://goreportcard.com/report/github.com/DanPlayer/chatgpt-sdk)
+
 ### 使用
 ```
 go get github.com/DanPlayer/chatgpt-sdk
