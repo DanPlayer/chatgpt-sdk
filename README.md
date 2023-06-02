@@ -2,7 +2,7 @@
 
 [![Go Report Card](https://goreportcard.com/badge/github.com/DanPlayer/chatgpt-sdk)](https://goreportcard.com/report/github.com/DanPlayer/chatgpt-sdk)
 
-chatgpt-sdk是一个使用Go语言编写的简单而强大的chatgpt sdk，可以方便地调用[ChatGpt-API](https://chatgpt.com/api)的各种接口，实现文本生成、代码生成和图像生成等功能。它支持国内使用代理模式，避免网络问题。它还提供了一些常用的模型和参数的常量，简化用户的选择。
+chatgpt-sdk是一个使用Go语言编写的简单而强大的chatgpt sdk，可以方便地调用[ChatGpt-API](https://platform.openai.com/)的各种接口，实现文本生成、代码生成和图像生成等功能。它支持国内使用代理模式，避免网络问题。它还提供了一些常用的模型和参数的常量，简化用户的选择。
 
 ## 安装
 
@@ -39,7 +39,7 @@ var ChatGpt = v1.Client(v1.ChatGptOption{
 - `Audio()`：根据给定的模型和文本生成音频
 - `CreateImage()`：根据给定的模型和文本生成图像
 
-具体的请求和响应结构体的字段，请参考[ChatGpt-API文档](https://chatgpt.com/api)。
+具体的请求和响应结构体的字段，请参考[ChatGpt-API文档](https://platform.openai.com/)。
 
 ## 示例
 
