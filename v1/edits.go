@@ -1,6 +1,7 @@
 package v1
 
 import (
+	"context"
 	"encoding/json"
 	"fmt"
 )
@@ -31,8 +32,8 @@ type CreateEditsChoice struct {
 }
 
 // CreateEdits Creates a new edit for the provided input, instruction, and parameters.
-func (chat *ChatGpt) CreateEdits(req CreateEditsRequest) (response CreateEditsResponse, err error) {
-	resp, err := chat.Post(CreateEdits, req)
+func (chat *ChatGpt) CreateEdits(ctx context.Context, req CreateEditsRequest) (response CreateEditsResponse, err error) {
+	resp, err := chat.Post(ctx, CreateEdits, req)
 	if err != nil {
 		fmt.Println(err)
 		return

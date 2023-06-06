@@ -1,6 +1,7 @@
 package v1
 
 import (
+	"context"
 	"encoding/json"
 	"fmt"
 )
@@ -29,8 +30,8 @@ type EmbeddingsData struct {
 }
 
 // Embeddings Creates an embedding vector representing the input text.
-func (chat *ChatGpt) Embeddings(req EmbeddingsRequest) (response EmbeddingsResponse, err error) {
-	resp, err := chat.Post(Embeddings, req)
+func (chat *ChatGpt) Embeddings(ctx context.Context, req EmbeddingsRequest) (response EmbeddingsResponse, err error) {
+	resp, err := chat.Post(ctx, Embeddings, req)
 	if err != nil {
 		fmt.Println(err)
 		return

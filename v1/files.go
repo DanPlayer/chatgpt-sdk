@@ -2,6 +2,7 @@ package v1
 
 import (
 	"bytes"
+	"context"
 	"encoding/json"
 	"fmt"
 	"io"
@@ -31,8 +32,8 @@ type FilesResponse struct {
 }
 
 // Files are used to upload documents that can be used with features like Fine-tuning.
-func (chat *ChatGpt) Files() (response FilesResponse, err error) {
-	resp, err := chat.Get(Files, nil)
+func (chat *ChatGpt) Files() (ctx context.Context, response FilesResponse, err error) {
+	resp, err := chat.Get(ctx, Files, nil)
 	if err != nil {
 		fmt.Println(err)
 		return
@@ -60,7 +61,7 @@ type UploadFileResponse struct {
 }
 
 // UploadFile Upload a file that contains document(s) to be used across various endpoints/features. Currently, the size of all the files uploaded by one organization can be up to 1 GB. Please contact us if you need to increase the storage limit.
-func (chat *ChatGpt) UploadFile(req UploadFileRequest) (response UploadFileResponse, err error) {
+func (chat *ChatGpt) UploadFile(ctx context.Context, req UploadFileRequest) (response UploadFileResponse, err error) {
 	// 创建multipart/form-data格式的body
 	var requestBody bytes.Buffer
 	writer := multipart.NewWriter(&requestBody)
@@ -82,7 +83,7 @@ func (chat *ChatGpt) UploadFile(req UploadFileRequest) (response UploadFileRespo
 	_ = writer.Close()
 
 	// 创建http请求
-	request, err := http.NewRequest("POST", UploadFile, &requestBody)
+	request, err := http.NewRequestWithContext(ctx, "POST", UploadFile, &requestBody)
 	if err != nil {
 		fmt.Println(err)
 		return
@@ -122,8 +123,8 @@ type DeleteFileResponse struct {
 	Deleted bool   `json:"deleted"`
 }
 
-func (chat *ChatGpt) DeleteFile(id string) (response DeleteFileResponse, err error) {
-	resp, err := chat.Delete(fmt.Sprintf(File, id), nil)
+func (chat *ChatGpt) DeleteFile(ctx context.Context, id string) (response DeleteFileResponse, err error) {
+	resp, err := chat.Delete(ctx, fmt.Sprintf(File, id), nil)
 	if err != nil {
 		fmt.Println(err)
 		return
@@ -146,8 +147,8 @@ type RetrieveFileResponse struct {
 }
 
 // RetrieveFile Returns information about a specific file.
-func (chat *ChatGpt) RetrieveFile(id string) (response FilesResponse, err error) {
-	resp, err := chat.Get(fmt.Sprintf(File, id), nil)
+func (chat *ChatGpt) RetrieveFile(ctx context.Context, id string) (response FilesResponse, err error) {
+	resp, err := chat.Get(ctx, fmt.Sprintf(File, id), nil)
 	if err != nil {
 		fmt.Println(err)
 		return
@@ -161,6 +162,6 @@ func (chat *ChatGpt) RetrieveFile(id string) (response FilesResponse, err error)
 }
 
 // RetrieveFileContent Returns the contents of the specified file
-func (chat *ChatGpt) RetrieveFileContent(id string) ([]byte, error) {
-	return chat.Get(fmt.Sprintf(FileContent, id), nil)
+func (chat *ChatGpt) RetrieveFileContent(ctx context.Context, id string) ([]byte, error) {
+	return chat.Get(ctx, fmt.Sprintf(FileContent, id), nil)
 }

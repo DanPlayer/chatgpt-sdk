@@ -1,6 +1,7 @@
 package v1
 
 import (
+	"context"
 	"encoding/json"
 	"fmt"
 )
@@ -28,8 +29,8 @@ type ModelResponse struct {
 }
 
 // Models Lists the currently available models, and provides basic information about each one such as the owner and availability.
-func (chat *ChatGpt) Models() (response ModelsResponse, err error) {
-	resp, err := chat.Get(Models, nil)
+func (chat *ChatGpt) Models(ctx context.Context) (response ModelsResponse, err error) {
+	resp, err := chat.Get(ctx, Models, nil)
 	if err != nil {
 		fmt.Println(err)
 		return
@@ -44,8 +45,8 @@ func (chat *ChatGpt) Models() (response ModelsResponse, err error) {
 
 // Model Retrieves a model instance, providing basic information about the model such as the owner and permissioning.
 // param model The ID of the model to use for this request
-func (chat *ChatGpt) Model(model string) (response ModelResponse, err error) {
-	resp, err := chat.Get(fmt.Sprintf(Model, model), nil)
+func (chat *ChatGpt) Model(ctx context.Context, model string) (response ModelResponse, err error) {
+	resp, err := chat.Get(ctx, fmt.Sprintf(Model, model), nil)
 	if err != nil {
 		fmt.Println(err)
 		return
@@ -65,8 +66,8 @@ type DeleteModelResponse struct {
 }
 
 // DeleteModel Delete a fine-tuned model. You must have the Owner role in your organization.
-func (chat *ChatGpt) DeleteModel(model string) (response DeleteModelResponse, err error) {
-	resp, err := chat.Delete(fmt.Sprintf(Model, model), nil)
+func (chat *ChatGpt) DeleteModel(ctx context.Context, model string) (response DeleteModelResponse, err error) {
+	resp, err := chat.Delete(ctx, fmt.Sprintf(Model, model), nil)
 	if err != nil {
 		fmt.Println(err)
 		return

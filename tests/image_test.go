@@ -1,13 +1,16 @@
 package tests
 
 import (
+	"context"
 	"fmt"
-	v1 "github.com/DanPlayer/chatgpt-sdk/v1"
 	"testing"
+
+	v1 "github.com/DanPlayer/chatgpt-sdk/v1"
 )
 
 func TestCreateImage(t *testing.T) {
-	response, err := ChatGpt.CreateImage(v1.CreateImageRequest{
+	ctx := context.Background()
+	response, err := ChatGpt.CreateImage(ctx, v1.CreateImageRequest{
 		Prompt: "A stop-motion animation still of a cute robot standing in the forest",
 	})
 	if err != nil {

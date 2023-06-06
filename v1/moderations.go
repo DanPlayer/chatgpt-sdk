@@ -1,6 +1,7 @@
 package v1
 
 import (
+	"context"
 	"encoding/json"
 	"fmt"
 )
@@ -41,8 +42,8 @@ type CreateModerationsResponse struct {
 }
 
 // CreateModerations Classifies if text violates OpenAI's Content Policy
-func (chat *ChatGpt) CreateModerations(req CreateModerationsRequest) (response CreateModerationsResponse, err error) {
-	resp, err := chat.Post(Moderations, req)
+func (chat *ChatGpt) CreateModerations(ctx context.Context, req CreateModerationsRequest) (response CreateModerationsResponse, err error) {
+	resp, err := chat.Post(ctx, Moderations, req)
 	if err != nil {
 		fmt.Println(err)
 		return

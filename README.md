@@ -48,7 +48,8 @@ var ChatGpt = v1.Client(v1.ChatGptOption{
 ### 文本生成
 
 ```go
-completions, err := ChatGpt.Completions(v1.CompletionsRequest{
+ctx := context.Background()
+completions, err := ChatGpt.Completions(ctx, v1.CompletionsRequest{
     Model:       v1.GPT3TextDavinci003,
     Prompt:      "Say this is a test",
     Suffix:      "",
@@ -84,7 +85,8 @@ fmt.Println(completions)
 ### 代码生成
 
 ```go
-completions, err := ChatGpt.Completions(v1.CompletionsRequest{
+ctx := context.Background()
+completions, err := ChatGpt.Completions(ctx, v1.CompletionsRequest{
     Model:     v1.CodexCodeDavinci002,
     Prompt:    "// Write a function in Go that takes a slice of integers and returns the sum of the elements\nfunc sum(",
     Suffix:    "",
@@ -119,7 +121,8 @@ fmt.Println(completions)
 ### 图像生成
 
 ```go
-createImage, err := ChatGpt.CreateImage(v1.CreateImageRequest{
+ctx := context.Background()
+createImage, err := ChatGpt.CreateImage(ctx, v1.CreateImageRequest{
     Model:           v1.GPT3Dot5Turbo0301,
     Query:           "a cute cat wearing a hat",
     Size:            v1.CreateImageSize256x256,

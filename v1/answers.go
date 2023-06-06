@@ -1,6 +1,7 @@
 package v1
 
 import (
+	"context"
 	"encoding/json"
 	"fmt"
 )
@@ -42,8 +43,8 @@ type AnswersResponse struct {
 // Answers 用于自动回答问题。
 // 您可以提供一个问题和一些上下文信息，然后ChatGPT将自动回答该问题。
 // 这个API非常适合于构建智能客服、问答系统和搜索引擎等应用程序。
-func (chat *ChatGpt) Answers(req AnswersRequest) (response AnswersResponse, err error) {
-	resp, err := chat.Post(Answers, req)
+func (chat *ChatGpt) Answers(ctx context.Context, req AnswersRequest) (response AnswersResponse, err error) {
+	resp, err := chat.Post(ctx, Answers, req)
 	if err != nil {
 		fmt.Println(err)
 		return

@@ -2,6 +2,7 @@ package v1
 
 import (
 	"bytes"
+	"context"
 	"encoding/json"
 	"fmt"
 	"io"
@@ -34,8 +35,8 @@ type CreateImageResponse struct {
 }
 
 // CreateImage Creates an image given a prompt.
-func (chat *ChatGpt) CreateImage(req CreateImageRequest) (response CreateImageResponse, err error) {
-	resp, err := chat.Post(CreateImage, req)
+func (chat *ChatGpt) CreateImage(ctx context.Context, req CreateImageRequest) (response CreateImageResponse, err error) {
+	resp, err := chat.Post(ctx, CreateImage, req)
 	if err != nil {
 		fmt.Println(err)
 		return

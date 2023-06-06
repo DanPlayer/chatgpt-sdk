@@ -1,13 +1,16 @@
 package tests
 
 import (
+	"context"
 	"fmt"
-	v1 "github.com/DanPlayer/chatgpt-sdk/v1"
 	"testing"
+
+	v1 "github.com/DanPlayer/chatgpt-sdk/v1"
 )
 
 func TestChat(t *testing.T) {
-	response, err := ChatGpt.CreateChatCompletion(v1.CreateChatCompletionRequest{
+	ctx := context.Background()
+	response, err := ChatGpt.CreateChatCompletion(ctx, v1.CreateChatCompletionRequest{
 		Model: v1.GPT3Dot5Turbo,
 		Messages: []v1.ChatMessage{
 			{

@@ -1,6 +1,7 @@
 package v1
 
 import (
+	"context"
 	"encoding/json"
 	"fmt"
 )
@@ -49,8 +50,8 @@ type Usage struct {
 	TotalTokens      int `json:"total_tokens"`
 }
 
-func (chat *ChatGpt) CreateChatCompletion(req CreateChatCompletionRequest) (response CreateChatCompletionResponse, err error) {
-	resp, err := chat.Post(ChatCompletion, req)
+func (chat *ChatGpt) CreateChatCompletion(ctx context.Context, req CreateChatCompletionRequest) (response CreateChatCompletionResponse, err error) {
+	resp, err := chat.Post(ctx, ChatCompletion, req)
 	if err != nil {
 		fmt.Println(err)
 		return

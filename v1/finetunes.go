@@ -1,6 +1,7 @@
 package v1
 
 import (
+	"context"
 	"encoding/json"
 	"fmt"
 )
@@ -62,8 +63,8 @@ type CreateFineTunesResponse struct {
 
 // CreateFineTunes Creates a job that fine-tunes a specified model from a given dataset.
 // Response includes details of the enqueued job including job status and the name of the fine-tuned models once complete.
-func (chat *ChatGpt) CreateFineTunes(req CreateFineTunesRequest) (response CreateFineTunesResponse, err error) {
-	resp, err := chat.Post(FineTunes, req)
+func (chat *ChatGpt) CreateFineTunes(ctx context.Context, req CreateFineTunesRequest) (response CreateFineTunesResponse, err error) {
+	resp, err := chat.Post(ctx, FineTunes, req)
 	if err != nil {
 		fmt.Println(err)
 		return
@@ -96,8 +97,8 @@ type FineTunesResponse struct {
 }
 
 // FineTunes List your organization's fine-tuning jobs
-func (chat *ChatGpt) FineTunes() (response FineTunesResponse, err error) {
-	resp, err := chat.Get(FineTunes, nil)
+func (chat *ChatGpt) FineTunes(ctx context.Context) (response FineTunesResponse, err error) {
+	resp, err := chat.Get(ctx, FineTunes, nil)
 	if err != nil {
 		fmt.Println(err)
 		return
@@ -151,8 +152,8 @@ type FineTuneResponse struct {
 }
 
 // FineTune Gets info about the fine-tune job.
-func (chat *ChatGpt) FineTune(id string) (response FineTuneResponse, err error) {
-	resp, err := chat.Get(fmt.Sprintf(FineTune, id), nil)
+func (chat *ChatGpt) FineTune(ctx context.Context, id string) (response FineTuneResponse, err error) {
+	resp, err := chat.Get(ctx, fmt.Sprintf(FineTune, id), nil)
 	if err != nil {
 		fmt.Println(err)
 		return
@@ -191,8 +192,8 @@ type CancelFineTuneResponse struct {
 }
 
 // CancelFineTune Immediately cancel a fine-tune job.
-func (chat *ChatGpt) CancelFineTune(id string) (response CancelFineTuneResponse, err error) {
-	resp, err := chat.Post(fmt.Sprintf(CancelFineTune, id), nil)
+func (chat *ChatGpt) CancelFineTune(ctx context.Context, id string) (response CancelFineTuneResponse, err error) {
+	resp, err := chat.Post(ctx, fmt.Sprintf(CancelFineTune, id), nil)
 	if err != nil {
 		fmt.Println(err)
 		return
@@ -215,8 +216,8 @@ type FineTuneEventsResponse struct {
 	} `json:"data"`
 }
 
-func (chat *ChatGpt) FineTuneEvents(id string) (response FineTuneEventsResponse, err error) {
-	resp, err := chat.Get(fmt.Sprintf(FineTuneEvents, id), nil)
+func (chat *ChatGpt) FineTuneEvents(ctx context.Context, id string) (response FineTuneEventsResponse, err error) {
+	resp, err := chat.Get(ctx, fmt.Sprintf(FineTuneEvents, id), nil)
 	if err != nil {
 		fmt.Println(err)
 		return

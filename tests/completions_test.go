@@ -1,13 +1,16 @@
 package tests
 
 import (
+	"context"
 	"fmt"
-	v1 "github.com/DanPlayer/chatgpt-sdk/v1"
 	"testing"
+
+	v1 "github.com/DanPlayer/chatgpt-sdk/v1"
 )
 
 func TestCompletions(t *testing.T) {
-	completions, err := ChatGpt.Completions(v1.CompletionsRequest{
+	ctx := context.Background()
+	completions, err := ChatGpt.Completions(ctx, v1.CompletionsRequest{
 		Model:       v1.GPT3TextDavinci003,
 		Prompt:      "你好",
 		Suffix:      "",

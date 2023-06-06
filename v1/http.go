@@ -2,6 +2,7 @@ package v1
 
 import (
 	"bytes"
+	"context"
 	"encoding/json"
 	"fmt"
 	"io/ioutil"
@@ -22,14 +23,14 @@ func (chat *ChatGpt) Proxy() *http.Transport {
 	}
 }
 
-func (chat *ChatGpt) Post(url string, data interface{}) ([]byte, error) {
+func (chat *ChatGpt) Post(ctx context.Context, url string, data interface{}) ([]byte, error) {
 	requestBody, err := json.Marshal(data)
 	if err != nil {
 		fmt.Println(err)
 		return []byte{}, nil
 	}
 
-	req, err := http.NewRequest("POST", url, bytes.NewBuffer(requestBody))
+	req, err := http.NewRequestWithContext(ctx, "POST", url, bytes.NewBuffer(requestBody))
 	if err != nil {
 		fmt.Println(err)
 		return []byte{}, nil
@@ -55,7 +56,7 @@ func (chat *ChatGpt) Post(url string, data interface{}) ([]byte, error) {
 	return ioutil.ReadAll(resp.Body)
 }
 
-func (chat *ChatGpt) Get(url string, data interface{}) ([]byte, error) {
+func (chat *ChatGpt) Get(ctx context.Context, url string, data interface{}) ([]byte, error) {
 	var (
 		requestBody []byte
 		err         error
@@ -70,7 +71,7 @@ func (chat *ChatGpt) Get(url string, data interface{}) ([]byte, error) {
 		}
 	}
 
-	req, err := http.NewRequest("GET", url, bytes.NewBuffer(requestBody))
+	req, err := http.NewRequestWithContext(ctx, "GET", url, bytes.NewBuffer(requestBody))
 	if err != nil {
 		fmt.Println(err)
 		return []byte{}, nil
@@ -96,7 +97,7 @@ func (chat *ChatGpt) Get(url string, data interface{}) ([]byte, error) {
 	return ioutil.ReadAll(resp.Body)
 }
 
-func (chat *ChatGpt) Delete(url string, data interface{}) ([]byte, error) {
+func (chat *ChatGpt) Delete(ctx context.Context, url string, data interface{}) ([]byte, error) {
 	var (
 		requestBody []byte
 		err         error
@@ -111,7 +112,7 @@ func (chat *ChatGpt) Delete(url string, data interface{}) ([]byte, error) {
 		}
 	}
 
-	req, err := http.NewRequest("DELETE", url, bytes.NewBuffer(requestBody))
+	req, err := http.NewRequestWithContext(ctx, "DELETE", url, bytes.NewBuffer(requestBody))
 	if err != nil {
 		fmt.Println(err)
 		return []byte{}, nil

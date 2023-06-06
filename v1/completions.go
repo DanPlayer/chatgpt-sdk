@@ -1,6 +1,7 @@
 package v1
 
 import (
+	"context"
 	"encoding/json"
 	"fmt"
 )
@@ -47,8 +48,8 @@ type CompletionsChoice struct {
 // Completions 用于生成文本。
 // 您可以提供一个起始文本（prompt），然后ChatGPT将自动根据这个文本生成接下来的文本。
 // 您可以控制生成的文本长度、温度（即创作性）、频率和置信度等参数。
-func (chat *ChatGpt) Completions(req CompletionsRequest) (response CompletionsResponse, err error) {
-	resp, err := chat.Post(Completions, req)
+func (chat *ChatGpt) Completions(ctx context.Context, req CompletionsRequest) (response CompletionsResponse, err error) {
+	resp, err := chat.Post(ctx, Completions, req)
 	if err != nil {
 		fmt.Println(err)
 		return
