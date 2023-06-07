@@ -2,6 +2,7 @@ package v1
 
 import (
 	"bytes"
+	"context"
 	"encoding/json"
 	"fmt"
 	"io"
@@ -29,7 +30,7 @@ type CreateTranscriptionsResponse struct {
 	Text string `json:"text"`
 }
 
-func (chat *ChatGpt) CreateTranscriptions(req CreateTranscriptionsRequest) (response CreateTranscriptionsResponse, err error) {
+func (chat *ChatGpt) CreateTranscriptions(ctx context.Context, req CreateTranscriptionsRequest) (response CreateTranscriptionsResponse, err error) {
 	// 创建multipart/form-data格式的body
 	var requestBody bytes.Buffer
 	writer := multipart.NewWriter(&requestBody)
@@ -63,7 +64,7 @@ func (chat *ChatGpt) CreateTranscriptions(req CreateTranscriptionsRequest) (resp
 	_ = writer.Close()
 
 	// 创建http请求
-	request, err := http.NewRequest("POST", Transcriptions, &requestBody)
+	request, err := http.NewRequestWithContext(ctx, "POST", Transcriptions, &requestBody)
 	if err != nil {
 		fmt.Println(err)
 		return
@@ -109,7 +110,7 @@ type CreateTranslationsResponse struct {
 	Text string `json:"text"`
 }
 
-func (chat *ChatGpt) CreateTranslations(req CreateTranslationsRequest) (response CreateTranslationsResponse, err error) {
+func (chat *ChatGpt) CreateTranslations(ctx context.Context, req CreateTranslationsRequest) (response CreateTranslationsResponse, err error) {
 	// 创建multipart/form-data格式的body
 	var requestBody bytes.Buffer
 	writer := multipart.NewWriter(&requestBody)
@@ -139,7 +140,7 @@ func (chat *ChatGpt) CreateTranslations(req CreateTranslationsRequest) (response
 	_ = writer.Close()
 
 	// 创建http请求
-	request, err := http.NewRequest("POST", Translations, &requestBody)
+	request, err := http.NewRequestWithContext(ctx, "POST", Translations, &requestBody)
 	if err != nil {
 		fmt.Println(err)
 		return

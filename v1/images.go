@@ -67,7 +67,7 @@ type CreateImageEditResponse struct {
 }
 
 // CreateImageEdit Creates an edited or extended image given an original image and a prompt.
-func (chat *ChatGpt) CreateImageEdit(req CreateImageEditRequest) (response CreateImageEditResponse, err error) {
+func (chat *ChatGpt) CreateImageEdit(ctx context.Context, req CreateImageEditRequest) (response CreateImageEditResponse, err error) {
 	// 创建multipart/form-data格式的body
 	var requestBody bytes.Buffer
 	writer := multipart.NewWriter(&requestBody)
@@ -109,7 +109,7 @@ func (chat *ChatGpt) CreateImageEdit(req CreateImageEditRequest) (response Creat
 	_ = writer.Close()
 
 	// 创建http请求
-	request, err := http.NewRequest("POST", CreateImageEdit, &requestBody)
+	request, err := http.NewRequestWithContext(ctx, "POST", CreateImageEdit, &requestBody)
 	if err != nil {
 		fmt.Println(err)
 		return
@@ -160,7 +160,7 @@ type CreateImageVariationsResponse struct {
 }
 
 // CreateImageVariations Creates a variation of a given image.
-func (chat *ChatGpt) CreateImageVariations(req CreateImageVariationsRequest) (response CreateImageVariationsResponse, err error) {
+func (chat *ChatGpt) CreateImageVariations(ctx context.Context, req CreateImageVariationsRequest) (response CreateImageVariationsResponse, err error) {
 	// 创建multipart/form-data格式的body
 	var requestBody bytes.Buffer
 	writer := multipart.NewWriter(&requestBody)
@@ -194,7 +194,7 @@ func (chat *ChatGpt) CreateImageVariations(req CreateImageVariationsRequest) (re
 	_ = writer.Close()
 
 	// 创建http请求
-	request, err := http.NewRequest("POST", CreateImageVariations, &requestBody)
+	request, err := http.NewRequestWithContext(ctx, "POST", CreateImageVariations, &requestBody)
 	if err != nil {
 		fmt.Println(err)
 		return
